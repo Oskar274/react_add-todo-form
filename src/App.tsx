@@ -11,9 +11,11 @@ import todosFromServer from './api/todos';
 export const App = () => {
   const [todos, setTodos] = useState<Todo[]>(todosFromServer);
 
+  const maxId = Math.max(...todos.map(todo => todo.id));
+
   const addTodo = (newTodo: NewTodo) => {
     const todo: Todo = {
-      id: Date.now(),
+      id: maxId,
       title: newTodo.title,
       userId: newTodo.userId,
       completed: false,

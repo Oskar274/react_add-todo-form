@@ -14,6 +14,14 @@ export const NewTodoForm: React.FC<Props> = ({ users, onSubmit }) => {
   const onSubmitEvent = (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (!title) {
+      return;
+    }
+
+    if (!userId) {
+      return;
+    }
+
     onSubmit({
       title,
       userId,
