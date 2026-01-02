@@ -27,6 +27,9 @@ export const NewTodoForm: React.FC<Props> = ({ users, onSubmit }) => {
       userId,
     });
 
+    setTitle('');
+    setUserId(0);
+
     setId(id + 1);
   };
 

@@ -15,7 +15,7 @@ export const App = () => {
 
   const addTodo = (newTodo: NewTodo) => {
     const todo: Todo = {
-      id: maxId,
+      id: maxId + 1,
       title: newTodo.title,
       userId: newTodo.userId,
       completed: false,
