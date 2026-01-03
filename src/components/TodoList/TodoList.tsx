@@ -16,7 +16,7 @@ export const TodoList: React.FC<Props> = ({ todos, users }) => {
         <TodoInfo
           key={todo.id}
           todo={todo}
-          user={users.find(u => u.id === todo.userId)!}
+          user={users.find(u => u.id === todo.user.id)!}
         />
       ))}
     </section>

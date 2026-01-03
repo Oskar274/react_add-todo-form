@@ -9,15 +9,35 @@ import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 
 export const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(todosFromServer);
+  const preparedTodos: Todo[] = todosFromServer.map(todo => {
+    const user = usersFromServer.find(u => u.id === todo.userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return {
+      id: todo.id,
+      title: todo.title,
+      completed: todo.completed,
+      user,
+    };
+  });
+
+  const [todos, setTodos] = useState<Todo[]>(preparedTodos);
 
   const maxId = Math.max(...todos.map(todo => todo.id));
-
   const addTodo = (newTodo: NewTodo) => {
+    const user = usersFromServer.find(u => u.id === newTodo.userId);
+
+    if (!user) {
+      return;
+    }
+
     const todo: Todo = {
       id: maxId + 1,
       title: newTodo.title,
-      userId: newTodo.userId,
+      user,
       completed: false,
     };
 

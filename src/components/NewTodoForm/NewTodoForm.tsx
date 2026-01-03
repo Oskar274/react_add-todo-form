@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { User } from '../../types/user';
 import { NewTodo } from '../../types/newTodo';
+
 type Props = {
   users: User[];
   onSubmit: (todo: NewTodo) => void;
@@ -9,12 +10,11 @@ type Props = {
 export const NewTodoForm: React.FC<Props> = ({ users, onSubmit }) => {
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState(0);
-  const [id, setId] = useState(3);
 
   const onSubmitEvent = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!title) {
+    if (!title.trim()) {
       return;
     }
 
@@ -29,15 +29,14 @@ export const NewTodoForm: React.FC<Props> = ({ users, onSubmit }) => {
 
     setTitle('');
     setUserId(0);
-
-    setId(id + 1);
   };
 
   return (
-    <form action="/api/todos" method="POST" onSubmit={onSubmitEvent}>
+    <form onSubmit={onSubmitEvent}>
       <div className="field">
         <input
           type="text"
+          value={title}
           data-cy="titleInput"
           onChange={event => setTitle(event.target.value)}
         />
@@ -50,11 +49,12 @@ export const NewTodoForm: React.FC<Props> = ({ users, onSubmit }) => {
           value={userId}
           onChange={event => setUserId(Number(event.target.value))}
         >
-          <option value="0" disabled>
+          <option value={0} disabled>
             Choose a user
           </option>
+
           {users.map(user => (
-            <option value={user.id} key={user.id}>
+            <option key={user.id} value={user.id}>
               {user.name}
             </option>
           ))}
